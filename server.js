@@ -8,7 +8,6 @@
         
         const path=urlObj.pathname;
         const  splitPath=path.split('/').filter(Boolean)
-        console.log(splitPath)
            
         // routing
         if(req.url.startsWith('/') && req.method==='GET'){
@@ -19,9 +18,17 @@
 
             // checking if continent is exist
             if(continentCode.length !== 0){
-                const data=continents.filter(element=>{
-                   
-                })
+                
+                for( let [Key,value] of Object.entries(continents) ){
+                    if(continentCode.toLocaleUpperCase()=== Key.toLocaleUpperCase()){
+                        res.end('matched')
+                    }
+
+                    else{
+                        res.statusCode=404;
+              res.end(JSON.stringify({response:404,message:'continent code does not '}),'utf-8') 
+                    }
+                }
             }
             else{
               res.statusCode=404;
