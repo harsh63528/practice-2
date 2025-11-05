@@ -8,43 +8,31 @@
         
         const path=urlObj.pathname;
         const  splitPath=path.split('/').filter(Boolean)
-    
-
-        // set header type
-        res.setHeader('Content-Type','application/json;charset=utf-8')
-
+        console.log(splitPath)
+           
         // routing
-        if(req.url.startsWith('/') && splitPath.length !==0 && req.method==='GET'){
-            const data=splitPath[0];
+        if(req.url.startsWith('/') && req.method==='GET'){
+            // if condition match then start this
+            //  storing the url
+            const continentCode=splitPath[0]||'';
+            const subRegion=splitPath[1]||'';
 
-            // filtering country by code
-            async function findCountryByCode(data){
-                
-                const co=()=>{
-                    const co=[]
-                    countries.filter((country)=>{
-                if(country.code===data.toUpperCase()){
-                    co.push(country)
-                    res.end(JSON.stringify(country))
-                }
+            // checking if continent is exist
+            if(continentCode.length !== 0){
+                const data=continents.filter(element=>{
+                   
+                })
             }
-        )
-        return co;
-    }  
-               return co();
-               
+            else{
+              res.statusCode=404;
+              res.end(JSON.stringify({response:404,message:'continent code is missing '}),'utf-8')  
             }
-            let give=findCountryByCode(data);
-             if(give.length===0){
-                    res.statusCode=404;
-                    res.end(JSON.stringify({error:res.statusCode,reason:'Not Found'}))
-                } 
-                
-                else{
-                    res.end(JSON.stringify(give),'utf-8')
-                }
-        
             
+        }
+
+        else{
+            res.statusCode=404;
+            res.end(JSON.stringify({response:res.statusCode,message:'the url not found or the request method not match'}))
         }
        
     })
