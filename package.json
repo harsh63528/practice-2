@@ -1,0 +1,17 @@
+{
+  "name": "practice-2",
+  "version": "1.0.0",
+  "description": "test practice",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "test": "test",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "practice2"
+  },
+  "author": "harsh singh",
+  "license": "ISC"
+}
