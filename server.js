@@ -2,7 +2,7 @@
     import{countries,continents} from './data.js'
     import errorRes from './errorRes.js'
     import check from './check.js'
-    import subdata from './sudata.js'
+    import subdata from './subdata.js'
 
     const server=http.createServer((req,res)=>{
         const urlObj=new URL(req.url,`http://${req.headers.host}`)
@@ -17,7 +17,6 @@
             // if condition match then start this
             //  storing the url
             const continentCode=splitPath[0]||'';
-            const subRegion=urlObj.searchParams.get(`region`)||'';
 
             // checking if continent is exist
             if(continentCode.length !== 0){
@@ -26,7 +25,7 @@
 
             const data=check(200,404,continentCode,continents,res);
             console.log(data)
-            const subcheck=subdata(data,404,subRegion,res)
+            const subcheck=subdata(data,404,urlObj,res)
             console.log(subcheck)
              res.end(JSON.stringify(subcheck))  
             }

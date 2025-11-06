@@ -1,6 +1,7 @@
 
 
-    export default function subdata(data,errcode,subRegion,res){
+    export default function subdata(data,errcode,urlObj,res){
+        const subRegion=urlObj.searchParams.get(`region`)||'';
                     console.log(subRegion)
                     if(data.statusCode===200){
                         if(subRegion){
@@ -10,6 +11,7 @@
                         }
                     }
                     else{
+
                     res.statusCode=errcode;
     return { statusCode: res.statusCode }
                     }
