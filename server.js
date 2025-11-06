@@ -29,7 +29,7 @@
              res.end(JSON.stringify(subcheck))  
             }
             else{
-              errorRes(404,'continent code is missing '.res) 
+              errorRes(404,'continent code is missing ',res) 
             }
             
         }
