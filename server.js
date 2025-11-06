@@ -17,6 +17,7 @@
             // if condition match then start this
             //  storing the url
             const continentCode=splitPath[0]||'';
+            const subRegion=urlObj.searchParams.get(`region`)||'';
 
             // checking if continent is exist
             if(continentCode.length !== 0){
@@ -24,8 +25,9 @@
               
 
             const data=check(200,404,continentCode,continents,res);
-            const subcheck=subdata(data,404,urlObj,'region',res)
-            console.log(subdata(data,404,urlObj,'region',res))
+            console.log(data)
+            const subcheck=subdata(data,404,subRegion,res)
+            console.log(subcheck)
              res.end(JSON.stringify(subcheck))  
             }
             else{
