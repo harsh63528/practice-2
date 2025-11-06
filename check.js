@@ -1,4 +1,4 @@
-import statuscode from "./statuscode.js";
+
 
 export default function check(code,errcode,continentCode,obj,res){ 
     for( let [Key,value] of Object.entries(obj) ){
@@ -9,7 +9,8 @@ export default function check(code,errcode,continentCode,obj,res){
                     }
 
                     else{
-                       statuscode(errcode,res)
+                      res.statusCode=errcode;
+                     return ({statusCode:res.statusCode})
                     }
                 }
 
