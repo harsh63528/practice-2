@@ -1,6 +1,8 @@
     import http from 'node:http'
     import{countries,continents} from './data.js'
-import { count } from 'node:console'
+    import errorRes from './errorRes.js'
+    import check from './check.js'
+    import subdata from './sudata.js'
 
     const server=http.createServer((req,res)=>{
         const urlObj=new URL(req.url,`http://${req.headers.host}`)
@@ -19,49 +21,21 @@ import { count } from 'node:console'
             // checking if continent is exist
             if(continentCode.length !== 0){
                 
-               const check=()=>{ for( let [Key,value] of Object.entries(continents) ){
-                    res.statusCode=200;
-                    if(continentCode.toLocaleUpperCase()=== Key.toLocaleUpperCase()){
-                        return ({statusCode:res.statusCode,continent:value})
+              
 
-                    }
-
-                    else{
-                        res.statusCode=404;
-                        return ({statusCode:res.statusCode})
-                    }
-                }
-
-            }
-
-            const data=check();
-              function subdata(){
-
-                if(data.statusCode===200){
-                    const subRegion=urlObj.searchParams.get('region')||'';
-                    if(subRegion){
-                        res.statusCode=200
-                        return({response:res.statusCode,subregion:subRegion})
-                    }
-                }
-                else{
-                    res.statusCode=404
-                    return({response:res.statusCode,message:`${subRegion} not match`})
-                }
-              } 
-               const subcheck=subdata()
-            res.end(JSON.stringify(subcheck))  
+            const data=check(200,404,continentCode,continents,res);
+            const subcheck=subdata(data,404,urlObj,'region',res)
+            console.log(subdata(data,404,urlObj,'region',res))
+             res.end(JSON.stringify(subcheck))  
             }
             else{
-              res.statusCode=404;
-              res.end(JSON.stringify({response:404,message:'continent code is missing '}),'utf-8')  
+              errorRes(404,'continent code is missing '.res) 
             }
             
         }
 
         else{
-            res.statusCode=404;
-            res.end(JSON.stringify({response:res.statusCode,message:'the url not found or the request method not match'}))
+            errorRes(404,'the url not found or the request method not match',res)
         }
        
     })
