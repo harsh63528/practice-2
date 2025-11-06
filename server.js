@@ -1,9 +1,10 @@
     import http from 'node:http'
     import{countries,continents} from './data.js'
+import { count } from 'node:console'
 
     const server=http.createServer((req,res)=>{
         const urlObj=new URL(req.url,`http://${req.headers.host}`)
-
+        console.log(urlObj)
         // accessing pathname and paramenters
         
         const path=urlObj.pathname;
@@ -14,21 +15,42 @@
             // if condition match then start this
             //  storing the url
             const continentCode=splitPath[0]||'';
-            const subRegion=splitPath[1]||'';
 
             // checking if continent is exist
             if(continentCode.length !== 0){
                 
-                for( let [Key,value] of Object.entries(continents) ){
+               const check=()=>{ for( let [Key,value] of Object.entries(continents) ){
+                    res.statusCode=200;
                     if(continentCode.toLocaleUpperCase()=== Key.toLocaleUpperCase()){
-                        res.end('matched')
+                        return ({statusCode:res.statusCode,continent:value})
+
                     }
 
                     else{
                         res.statusCode=404;
-              res.end(JSON.stringify({response:404,message:'continent code does not '}),'utf-8') 
+                        return ({statusCode:res.statusCode})
                     }
                 }
+
+            }
+
+            const data=check();
+              function subdata(){
+
+                if(data.statusCode===200){
+                    const subRegion=urlObj.searchParams.get('region')||'';
+                    if(subRegion){
+                        res.statusCode=200
+                        return({response:res.statusCode,subregion:subRegion})
+                    }
+                }
+                else{
+                    res.statusCode=404
+                    return({response:res.statusCode,message:`${subRegion} not match`})
+                }
+              } 
+               const subcheck=subdata()
+            res.end(JSON.stringify(subcheck))  
             }
             else{
               res.statusCode=404;
