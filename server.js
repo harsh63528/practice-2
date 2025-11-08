@@ -3,6 +3,7 @@
     import errorRes from './errorRes.js'
     import check from './check.js'
     import subdata from './subdata.js'
+import { todo } from 'node:test'
 
     const server=http.createServer((req,res)=>{
         const urlObj=new URL(req.url,`http://${req.headers.host}`)
@@ -22,12 +23,28 @@
             if(continentCode.length !== 0){
                 
               
-
+            const toDisplay=[]
             const data=check(200,404,continentCode,continents,res);
             console.log(data)
             const subcheck=subdata(data,404,urlObj,res)
-            console.log(subcheck)
-             res.end(JSON.stringify(subcheck))  
+            if(subcheck.subregion !== null){
+                    countries.filter(Element=>{
+                    if(Element.subregion.toLowerCase()===subcheck.subregion.toLowerCase()){
+                        toDisplay.push(Element)
+                    }
+                
+                })
+            if(toDisplay.length!==0){
+                res.end(JSON.stringify(toDisplay))
+            }
+
+            else{
+                res.statusCode=404
+                console.log(subcheck.todis)
+                res.end(JSON.stringify({response:404,message:`no countries found in ${subcheck.subregion} region`}),'utf-8')
+            }
+                
+            } 
             }
             else{
               errorRes(404,'continent code is missing ',res) 
